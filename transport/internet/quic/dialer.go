@@ -6,8 +6,6 @@ import (
 	"time"
 
 	"github.com/quic-go/quic-go"
-	"github.com/quic-go/quic-go/logging"
-	"github.com/quic-go/quic-go/qlog"
 	"github.com/xtls/xray-core/common"
 	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/common/task"
@@ -142,9 +140,6 @@ func (s *clientConnections) openConnection(ctx context.Context, destAddr net.Add
 		KeepAlivePeriod:      0,
 		HandshakeIdleTimeout: time.Second * 8,
 		MaxIdleTimeout:       time.Second * 300,
-		Tracer: func(ctx context.Context, p logging.Perspective, ci quic.ConnectionID) logging.ConnectionTracer {
-			return qlog.NewConnectionTracer(&QlogWriter{connID: ci}, p, ci)
-		},
 	}
 	udpConn, _ := rawConn.(*net.UDPConn)
 	if udpConn == nil {

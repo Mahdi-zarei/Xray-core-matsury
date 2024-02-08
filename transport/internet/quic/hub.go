@@ -5,8 +5,6 @@ import (
 	"time"
 
 	"github.com/quic-go/quic-go"
-	"github.com/quic-go/quic-go/logging"
-	"github.com/quic-go/quic-go/qlog"
 	"github.com/xtls/xray-core/common"
 	"github.com/xtls/xray-core/common/net"
 	"github.com/xtls/xray-core/common/protocol/tls/cert"
@@ -108,9 +106,6 @@ func Listen(ctx context.Context, address net.Address, port net.Port, streamSetti
 		MaxIdleTimeout:        time.Second * 300,
 		MaxIncomingStreams:    32,
 		MaxIncomingUniStreams: -1,
-		Tracer: func(ctx context.Context, p logging.Perspective, ci quic.ConnectionID) logging.ConnectionTracer {
-			return qlog.NewConnectionTracer(&QlogWriter{connID: ci}, p, ci)
-		},
 	}
 
 	conn, err := wrapSysConn(rawConn.(*net.UDPConn), config)

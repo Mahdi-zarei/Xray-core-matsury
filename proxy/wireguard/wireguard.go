@@ -138,11 +138,6 @@ func (h *Handler) Process(ctx context.Context, link *transport.Link, dialer inte
 	if outbound == nil || !outbound.Target.IsValid() {
 		return newError("target not specified")
 	}
-	outbound.Name = "wireguard"
-	inbound := session.InboundFromContext(ctx)
-	if inbound != nil {
-		inbound.SetCanSpliceCopy(3)
-	}
 
 	if err := h.processWireGuard(dialer); err != nil {
 		return err
